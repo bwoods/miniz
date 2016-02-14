@@ -249,10 +249,9 @@ enum { MZ_DEFAULT_STRATEGY = 0, MZ_FILTERED = 1, MZ_HUFFMAN_ONLY = 2, MZ_RLE = 3
 #ifndef MINIZ_NO_ZLIB_APIS
 
 // Heap allocation callbacks.
-// Note that mz_alloc_func parameter types purpsosely differ from zlib's: items/size is size_t, not unsigned long.
-typedef void *(*mz_alloc_func)(void *opaque, size_t items, size_t size);
+typedef void *(*mz_alloc_func)(void *opaque, unsigned int items, unsigned int size);
 typedef void (*mz_free_func)(void *opaque, void *address);
-typedef void *(*mz_realloc_func)(void *opaque, void *address, size_t items, size_t size);
+typedef void *(*mz_realloc_func)(void *opaque, void *address, unsigned int items, unsigned int size);
 
 #define MZ_VERSION          "9.1.15"
 #define MZ_VERNUM           0x91F0
@@ -1008,9 +1007,9 @@ void mz_free(void *p)
 
 #ifndef MINIZ_NO_ZLIB_APIS
 
-static void *def_alloc_func(void *opaque, size_t items, size_t size) { (void)opaque, (void)items, (void)size; return MZ_MALLOC(items * size); }
+static void *def_alloc_func(void *opaque, unsigned int items, unsigned int size) { (void)opaque, (void)items, (void)size; return MZ_MALLOC(items * size); }
 static void def_free_func(void *opaque, void *address) { (void)opaque, (void)address; MZ_FREE(address); }
-static void *def_realloc_func(void *opaque, void *address, size_t items, size_t size) { (void)opaque, (void)address, (void)items, (void)size; return MZ_REALLOC(address, items * size); }
+static void *def_realloc_func(void *opaque, void *address, unsigned int items, unsigned int size) { (void)opaque, (void)address, (void)items, (void)size; return MZ_REALLOC(address, items * size); }
 
 const char *mz_version(void)
 {
